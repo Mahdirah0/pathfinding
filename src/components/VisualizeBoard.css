@@ -1,0 +1,20 @@
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rows {
+  display: flex;
+}
+
+.cols {
+  border: 1px solid black;
+  /* padding: 50px; */
+  height: 80px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
