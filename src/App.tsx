@@ -1,4 +1,4 @@
-import Board from './components/Board';
+import Grid from './components/Grid';
 
 function App() {
   // console.log(Board);
@@ -6,7 +6,7 @@ function App() {
   return (
     <div className='App'>
       <h1>Application</h1>
-      <Board />
+      <Grid />
     </div>
   );
 }

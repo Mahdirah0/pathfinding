@@ -1,9 +1,4 @@
-.board {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+
 
 .rows {
   display: flex;
@@ -17,4 +12,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.cols[start-node] {
+  background-color: rgb(61, 226, 61);
+}
+
+.cols[end-node] {
+  background-color: rgb(228, 84, 84);
+}
+
+.cols[wall-node] {
+  background-color: black
 }
