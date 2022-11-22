@@ -1,5 +1,3 @@
-
-
 .rows {
   display: flex;
 }
@@ -14,14 +12,22 @@
   align-items: center;
 }
 
-.cols[start-node] {
+.cols[start-node='true'] {
   background-color: rgb(61, 226, 61);
 }
 
-.cols[end-node] {
+.cols[end-node='true'] {
   background-color: rgb(228, 84, 84);
 }
 
 .cols[wall-node] {
-  background-color: black
+  background-color: black;
+}
+
+.cols[visited-node='true'] {
+  background-color: blue;
+}
+
+.cols[path-node='true'] {
+  background-color: yellow;
 }
