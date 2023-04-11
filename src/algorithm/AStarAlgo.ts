@@ -1,19 +1,30 @@
+type Coordinate = {
+  row: number;
+  col: number;
+};
+
 class GridPoint {
-  i: number;
-  j: number;
+  row: number;
+  col: number;
   f: number;
   g: number;
   h: number;
-  neighbours: number[];
-  parent: undefined;
+  neighbours: GridPoint[];
+  parent: GridPoint | null;
   rows: number;
   cols: number;
   value: number;
   wall: boolean;
 
-  constructor(i: number, j: number, value: number, rows: number, cols: number) {
-    this.i = i;
-    this.j = j;
+  constructor(
+    row: number,
+    col: number,
+    value: number,
+    rows: number,
+    cols: number
+  ) {
+    this.row = row;
+    this.col = col;
     this.value = value;
     this.f = 0;
     this.g = 0;
@@ -21,36 +32,31 @@ class GridPoint {
     this.cols = cols;
     this.rows = rows;
     this.neighbours = [];
-    this.parent = undefined;
+    this.parent = null;
     this.wall = false;
     if (value === 0) {
       this.wall = true;
     }
   }
 
-  updateNeighbours(grid: any[][]) {
-    let i = this.i;
-    let j = this.j;
-    if (i < this.cols - 1) {
-      this.neighbours.push(grid[i + 1][j]);
+  updateNeighbours(grid: GridPoint[][]) {
+    let row = this.row;
+    let col = this.col;
+
+    if (row < this.rows - 1) {
+      this.neighbours.push(grid[row + 1][col]);
     }
-    if (i > 0) {
-      this.neighbours.push(grid[i - 1][j]);
+    if (row > 0) {
+      this.neighbours.push(grid[row - 1][col]);
     }
-    if (j < this.rows - 1) {
-      this.neighbours.push(grid[i][j + 1]);
+    if (col < this.cols - 1) {
+      this.neighbours.push(grid[row][col + 1]);
     }
-    if (j > 0) {
-      this.neighbours.push(grid[i][j - 1]);
+    if (col > 0) {
+      this.neighbours.push(grid[row][col - 1]);
     }
   }
 }
-
-const openSet: any[] = [];
-const closedSet: any[] = [];
-const visited: any[] = [];
-
-let path: any[][] = [];
 
 const initGrid = (board: number[][], rows: number, cols: number) => {
   const grid = Array.from(Array(rows), () => new Array(cols).fill(1));
@@ -71,21 +77,28 @@ const initGrid = (board: number[][], rows: number, cols: number) => {
 };
 
 const heuristic = (position0: GridPoint, position1: GridPoint) => {
-  let d1 = Math.abs(position1.i - position0.i);
-  let d2 = Math.abs(position1.j - position0.j);
+  let d1 = Math.abs(position1.row - position0.row);
+  let d2 = Math.abs(position1.col - position0.col);
 
   return d1 + d2;
 };
 
 export const AStarAlgo = (
   board: number[][],
-  startIndex: any,
-  endIndex: any
+  startIndex: Coordinate,
+  endIndex: Coordinate,
+  rows: number,
+  cols: number
 ) => {
-  // board[i][j] where d -> 0
-  const grid = initGrid(board, 15, 15);
-  const end = grid[endIndex.i][endIndex.j];
-  openSet.push(grid[startIndex.i][startIndex.j]);
+  const grid = initGrid(board, rows, cols);
+
+  let path: GridPoint[] = [];
+  const openSet: GridPoint[] = [];
+  const closedSet: GridPoint[] = [];
+
+  openSet.push(grid[startIndex.row][startIndex.col]);
+
+  const end = grid[endIndex.row][endIndex.col];
 
   while (openSet.length > 0) {
     let currentIndex = 0;
@@ -95,16 +108,15 @@ export const AStarAlgo = (
       }
     }
 
-    let current = openSet[currentIndex];
+    let current: GridPoint = openSet[currentIndex];
 
     if (current === end) {
-      let temp = current;
+      let temp: GridPoint = current;
       path.push(temp);
       while (temp.parent) {
         path.push(temp.parent);
         temp = temp.parent;
       }
-      console.log('DONE!');
       // return the traced path
       return { visitedNodes: closedSet, path: path.reverse(), pathFound: true };
     }
