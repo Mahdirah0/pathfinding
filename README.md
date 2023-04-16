@@ -8,9 +8,16 @@ This project currently has A\* algorithm but I'm planning to add more.
 - Add Dijkstra algorithm
 - Add Maze generation
 - DFS and BFS
+- Fix bugs
+- Clean code
+- Add wall dragging
 
 ## Resources:
 
-[https://en.wikipedia.org/wiki/Pathfinding#RIPA_algorithm](https://en.wikipedia.org/wiki/Pathfinding#RIPA_algorithm)
-[A\* Pathfinding (E01: algorithm explanation) - Sebastian Lague](https://www.youtube.com/watch?v=-L-WgKMFuhE)
-[https://www.youtube.com/watch?v=aKYlikFAV4kCoding Challenge 51.1: A\* Pathfinding Algorithm - The Coding Train](https://www.youtube.com/watch?v=aKYlikFAV4k)
+[Wikipedia](https://en.wikipedia.org/wiki/Pathfinding#RIPA_algorithm)
+[Sebastian Lague](https://www.youtube.com/watch?v=-L-WgKMFuhE)
+[The Coding Train](https://www.youtube.com/watch?v=aKYlikFAV4k)
+
+## Example
+
+![example](screenshot.png)
