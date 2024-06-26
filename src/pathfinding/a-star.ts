@@ -1,3 +1,5 @@
+import { GridConstants } from '../constant';
+
 type Coordinate = {
   row: number;
   col: number;
@@ -83,22 +85,24 @@ const heuristic = (position0: GridPoint, position1: GridPoint) => {
   return d1 + d2;
 };
 
-export const AStarAlgo = (
-  board: number[][],
-  startIndex: Coordinate,
-  endIndex: Coordinate,
-  rows: number,
-  cols: number
-) => {
+type AStarProps = {
+  board: any;
+  startPosition: Coordinate;
+  endPosition: Coordinate;
+};
+
+export const aStar = ({ board, startPosition, endPosition }: AStarProps) => {
+  const rows = GridConstants.gridRows;
+  const cols = GridConstants.gridCols;
   const grid = initGrid(board, rows, cols);
 
   let path: GridPoint[] = [];
   const openSet: GridPoint[] = [];
   const closedSet: GridPoint[] = [];
 
-  openSet.push(grid[startIndex.row][startIndex.col]);
+  openSet.push(grid[startPosition.row][startPosition.col]);
 
-  const end = grid[endIndex.row][endIndex.col];
+  const end = grid[endPosition.row][endPosition.col];
 
   while (openSet.length > 0) {
     let currentIndex = 0;

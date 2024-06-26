@@ -1,8 +1,6 @@
-import { Grid } from './components/Grid';
+import { Grid } from './components';
 
 function App() {
-  // console.log(Board);
-
   return (
     <div className='App'>
       <Grid />
