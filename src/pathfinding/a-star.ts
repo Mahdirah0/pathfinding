@@ -86,15 +86,15 @@ const heuristic = (position0: GridPoint, position1: GridPoint) => {
 };
 
 type AStarProps = {
-  board: any;
+  gridUI: number[][];
   startPosition: Coordinate;
   endPosition: Coordinate;
 };
 
-export const aStar = ({ board, startPosition, endPosition }: AStarProps) => {
+export const aStar = ({ gridUI, startPosition, endPosition }: AStarProps) => {
   const rows = GridConstants.gridRows;
   const cols = GridConstants.gridCols;
-  const grid = initGrid(board, rows, cols);
+  const grid = initGrid(gridUI, rows, cols);
 
   let path: GridPoint[] = [];
   const openSet: GridPoint[] = [];

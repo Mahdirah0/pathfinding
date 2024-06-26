@@ -43,6 +43,14 @@ export const Grid = () => {
     col: GridConstants.endNode.col,
   });
 
+  const [isMouseDown, setMouseDown] = useState(false);
+  const [toggleWallValue, setToggleWallValue] = useState<number>(-1);
+  const [selectedNode, setSelectedNode] = useState<SelectedNode>({
+    selected: false,
+    node: null,
+  });
+  const [isVisualising, setIsVisualising] = useState(false);
+
   useEffect(() => {
     const { row: startRow, col: startCol } = GridConstants.startNode;
     const { row: endRow, col: endCol } = GridConstants.endNode;
@@ -54,14 +62,6 @@ export const Grid = () => {
     );
     setGrid(initialGrid);
   }, []);
-
-  const [isMouseDown, setMouseDown] = useState(false);
-  const [toggleWallValue, setToggleWallValue] = useState<number>(-1);
-  const [selectedNode, setSelectedNode] = useState<SelectedNode>({
-    selected: false,
-    node: null,
-  });
-  const [isVisualising, setIsVisualising] = useState(false);
 
   // const animateVisitedNodes = (
   //   visitedNodes: [],
@@ -197,26 +197,39 @@ export const Grid = () => {
     });
   };
 
-  const resetGrid = () => {
-    const initialGrid: number[][] = createInitialGrid(
-      startNodePos.row,
-      startNodePos.col,
-      endNodePos.row,
-      endNodePos.col
-    );
-    setGrid(initialGrid);
-  };
+  // const resetGrid = () => {
+  //   const initialGrid: number[][] = createInitialGrid(
+  //     startNodePos.row,
+  //     startNodePos.col,
+  //     endNodePos.row,
+  //     endNodePos.col
+  //   );
+
+  //   const removedPath = grid.map((array) => {
+  //     const path = [];
+  //     for (let i = 0; i < array.length; i++) {
+  //       if (array[i] !== 4 || array[i] !== 5) {
+  //         path.push(array[i]);
+  //       }
+  //     }
+  //     console.log(path);
+  //     return path;
+  //   });
+
+  //   console.log(removedPath);
+
+  //   setGrid(removedPath);
+  // };
 
   const animateVisitedNodes = (
     visitedNodes: any[],
     path: any[],
     pathFound: boolean
   ) => {
-    console.log(visitedNodes);
     for (let i = 0; i < visitedNodes.length; i++) {
       setTimeout(() => {
         const { row, col } = visitedNodes[i];
-        if (isNotStartOrEndNode(grid[row][col])) {
+        if (isNotStartOrEndNode(grid[row][col]) && grid[row][col] !== 0) {
           setGridValue(4, row, col);
         }
         if (i === visitedNodes.length - 1 && pathFound) {
@@ -230,17 +243,19 @@ export const Grid = () => {
     for (let i = 0; i < path.length; i++) {
       setTimeout(() => {
         const { row, col } = path[i];
-        if (isNotStartOrEndNode(grid[row][col])) {
+        if (isNotStartOrEndNode(grid[row][col]) && grid[row][col] !== 0) {
           setGridValue(5, row, col);
         }
       }, TRANSITION_SPEED * i);
     }
+    setIsVisualising(false);
   };
 
   const handleVisualiseClick = () => {
+    setIsVisualising(true);
     // resetGrid();
     const { path, pathFound, visitedNodes } = PathfindingAlgorithms.aStar({
-      board: grid,
+      gridUI: grid,
       startPosition: startNodePos,
       endPosition: endNodePos,
     });
@@ -254,7 +269,11 @@ export const Grid = () => {
           <option value='a-star'>A Star</option>
           <option value='dijkastra'>Dijkstra</option>
         </select>
-        <button className='visualise' onClick={handleVisualiseClick}>
+        <button
+          className='visualise'
+          disabled={isVisualising}
+          onClick={handleVisualiseClick}
+        >
           Visualize
         </button>
       </div>
